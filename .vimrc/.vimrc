@@ -1,0 +1,1 @@
+/home/lims4010/.vimrc
