@@ -23,7 +23,8 @@ set lazyredraw          " redraw screen only when we need to
 set showmatch           " highlight matching parentheses / brackets [{()}]
 set laststatus=2        " always show statusline (even with only single window)
 set ruler               " show line and column number of the cursor on right side of statusline
-set visualbell          " blink cursor on error, instead of beeping
+set vb t_vb=            " remove annoying bell and flash
+set ttimeoutlen=10      " limit escape sequence length
 
 
 """" Key Bindings
