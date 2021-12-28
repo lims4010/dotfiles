@@ -1,71 +1,177 @@
-"""" Enable Vundle: vim plugin manager
+" ------------------------------------------------------------
+" Load plugins
+" ------------------------------------------------------------
 
-" required before Vundle initialization
-" set nocompatible        " disable compatibility mode with vi
-" filetype off            " disable filetype detection (but re-enable later, see below)
+set nocompatible
+filetype off
 
-" set the runtime path to include Vundle, and initialize
-" set rtp+=~/.vim/bundle/Vundle.vim
-" call vundle#begin()
-" Plugin 'VundleVim/Vundle.vim'
-" Plugin 'wting/rust.vim' " enable syntax highlighting for rust
-" call vundle#end()
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
 
+" Plugins will be downloaded under the specified directory.
+call vundle#begin('~/.vim/plugged')
 
-"""" Basic Behavior
+" Let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-set number              " show line numbers
-set wrap                " wrap lines
-set encoding=utf-8      " set encoding to UTF-8 (default was "latin1")
-set mouse=a             " enable mouse support (might not work well on Mac OS X)
-set wildmenu            " visual autocomplete for command menu
-set lazyredraw          " redraw screen only when we need to
-set showmatch           " highlight matching parentheses / brackets [{()}]
-set laststatus=2        " always show statusline (even with only single window)
-set ruler               " show line and column number of the cursor on right side of statusline
-set vb t_vb=            " remove annoying bell and flash
-set ttimeoutlen=10      " limit escape sequence length
+" Colorschemes
+Plugin 'kristijanhusak/vim-hybrid-material'
+Plugin 'cocopon/iceberg.vim'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'sjl/badwolf'
+Plugin 'lifepillar/vim-solarized8'
+Plugin 'scheakur/vim-scheakur'
+Plugin 'Badacadabra/vim-archery'
 
+" PloyGlot
+Plugin 'sheerun/vim-polyglot'
 
-"""" Key Bindings
+" Auto Pairs
+Plugin 'jiangmiao/auto-pairs'   " Auto Pairs
 
-" move vertically by visual line (don't skip wrapped lines)
-nmap j gj
-nmap k gk
+" NERDTree
+Plugin 'preservim/nerdtree'
 
+" Tagbar
+Plugin 'preservim/tagbar'
 
-"""" Vim Appearance
+" ctrlsf.vim 
+Plugin'dyng/ctrlsf.vim'
 
-" put colorscheme files in ~/.vim/colors/
-colorscheme murphy      " good colorschemes: murphy, slate, molokai, badwolf, solarized
+" vim-fswitch
+Plugin 'derekwyatt/vim-fswitch'
 
-" use filetype-based syntax highlighting, ftplugins, and indentation
-syntax enable
+" vim-protodef 
+Plugin 'derekwyatt/vim-protodef'
+
+" List ends here. Plugins become visible to Vim after this call.
+call vundle#end()
 filetype plugin indent on
 
 
-"""" Tab settings
+" ------------------------------------------------------------
+" auto-pairs configuration
+" ------------------------------------------------------------
 
-set tabstop=4           " width that a <TAB> character displays as
-set expandtab           " convert <TAB> key-presses to spaces
-set shiftwidth=4        " number of spaces to use for each step of (auto)indent
-set softtabstop=4       " backspace after pressing <TAB> will remove up to this many spaces
-
-set autoindent          " copy indent from current line when starting a new line
-set smartindent         " even better autoindent (e.g. add indent after '{')
+let g:AutoPairsShortcutToggle = '<C-P>'
 
 
-"""" Search settings
+" ------------------------------------------------------------
+" NERDTree configuration
+" ------------------------------------------------------------
 
-set incsearch           " search as characters are entered
-set hlsearch            " highlight matches
+let NERDTreeShowBookmarks = 1
+let NERDTreeShowHidden = 1
+let NERDTreeShowLineNumbers = 0
+let NERDTreeMinimalMenu = 1
+let NERDTreeWinPos = "left"
+let NERDTreeWinSize = 31
 
-" turn off search highlighting with <CR> (carriage-return)
-" nnoremap <CR> :nohlsearch<CR><CR>
+
+" ------------------------------------------------------------
+" tagbar configuration
+" ------------------------------------------------------------
+
+let g:tagbar_autofocus = 1
+let g:tagbar_autoshowtag = 1
+let g:tagbar_position = 'botright vertical'
 
 
-"""" Miscellaneous settings that might be worth enabling
+" ------------------------------------------------------------
+" ctrlsf configuration
+" ------------------------------------------------------------
 
-"set cursorline         " highlight current line
-"set background=dark    " configure Vim to use brighter colors
-"set autoread           " autoreload the file in Vim if it has been changed outside of Vim
+let g:ctrlsf_backend = 'ack'
+let g:ctrlsf_auto_close = { "normal": 0, "compact": 0 }
+let g:ctrlsf_auto_focus = { "at": "start" }
+let g:ctrlsf_auto_preview = 0
+let g:ctrlsf_case_sensitive = 'smart'
+let g:ctrlsf_default_view = 'normal'
+let g:ctrlsf_regex_pattern = 0
+let g:ctrlsf_position = 'right'
+let g:ctrlsf_winsize = '46'
+let g:ctrlsf_default_root = 'cwd'   " projcet
+
+
+" ------------------------------------------------------------
+" fswitch configuration
+" ------------------------------------------------------------
+"
+" Set fswichdst and fswitchloc variables when BufEnter event takes place
+" on a file whose name matches {*.cpp}.
+
+au! BufEnter *.cpp let b:fswitchdst = 'hpp,h'
+au! BufEnter *.h   let b:fswitchdst = 'cpp,c'
+
+" fswitchdst  - Denotes the files extensions that is the target extension of
+"               the current file's companion file.
+"
+" fswitchlocs - Contains a set of directories that indicate directory names 
+"               that should be formulated when trying to find the alternate
+"               file.
+
+" ------------------------------------------------------------
+" vim-protodef configuration 
+" ------------------------------------------------------------
+
+nmap <buffer> <silent> <leader> ,PP
+nmap <buffer> <silent> <leader> ,PN
+
+" NOTE: This doesn't seem to disable the sorting.
+let g:disable_protodef_sorting = 1
+
+
+" ------------------------------------------------------------
+" Vim configuration
+" ------------------------------------------------------------
+
+set nu                  " Enable line numbers
+syntax on               " Enable synax highlighting
+set incsearch           " Enable incremental search
+set hlsearch            " Enable highlight search
+set splitbelow          " Always split below"
+set mouse=a             " Enable mouse drag on window splits
+set tabstop=4           " How many columns of whitespace a \t is worth
+set shiftwidth=4        " How many columns of whitespace a “level of indentation” is worth
+set expandtab           " Use spaces when tabbing
+
+if !has('nvim')
+    set termwinsize=12x0    " Set terminal size
+endif
+
+set background=dark     " Set background 
+colorscheme scheakur
+
+set pastetoggle=<F3>    " Set paste toggle"
+
+" ------------------------------------------------------------
+" Key mappings
+" ------------------------------------------------------------
+
+" General
+nmap        <C-B>     :buffers<CR>
+nmap        <C-J>     :term<CR>
+
+" NERDTree
+nmap        <F2>      :NERDTreeToggle<CR>
+
+" tagbar
+nmap        <F8>      :TagbarToggle<CR>
+
+" ctrlds
+nmap        <C-F>f    <Plug>CtrlSFPrompt
+xmap        <C-F>f    <Plug>CtrlSFVwordPath
+xmap        <C-F>F    <Plug>CtrlSFVwordExec
+nmap        <C-F>n    <Plug>CtrlSFCwordPath
+nmap        <C-F>p    <Plug>CtrlSFPwordPath
+nnoremap    <C-F>o    :CtrlSFOpen<CR>
+nnoremap    <C-F>t    :CtrlSFToggle<CR>
+inoremap    <C-F>t    <Esc>:CtrlSFToggle<CR>
+
+" fswitch
+nmap        <C-Z>     :vsplit <bar> :wincmd l <bar> :FSRight<CR>
+
+" added config
+
+set vb t_vb=            " remove annoying bell and flash
+set ttimeoutlen=10      " limit escape sequence length
